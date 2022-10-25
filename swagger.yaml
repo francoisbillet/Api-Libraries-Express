@@ -20,6 +20,22 @@ tags:
     description: Operations about Books' Authors
 paths:
   /library:
+    get:
+      tags:
+        - library
+      summary: Get all existing libraries
+      operationId: getLibraries
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Library"
+        "500":
+          description: Internal Server error
     post:
       tags:
         - library
@@ -31,24 +47,42 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Library'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Library'
+              $ref: "#/components/schemas/Library"
         required: true
       responses:
-        '201':
+        "201":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Library'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Library'
-        '204':
-          description: No content
+                $ref: "#/components/schemas/Library"
+        "500":
+          description: Internal Server error
   /library/{libraryId}:
+    get:
+      tags:
+        - library
+      summary: Get an existing library
+      operationId: getLibrary
+      parameters:
+        - name: libraryId
+          in: path
+          description: ID of library to get
+          required: true
+          schema:
+            type: integer
+            format: int16
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Library"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server error
     put:
       tags:
         - library
@@ -58,37 +92,351 @@ paths:
       parameters:
         - name: libraryId
           in: path
-          description: ID of library to return
+          description: ID of library to update
           required: true
           schema:
             type: integer
-            format: int64
+            format: int16
       requestBody:
         description: Update an existent library in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Library'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Library'
+              $ref: "#/components/schemas/Library"
         required: true
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Library'          
-            application/xml:
+                $ref: "#/components/schemas/Library"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server Error
+    patch:
+      tags:
+        - library
+      summary: Update specific elements of an existing library
+      operationId: patchLibrary
+      parameters:
+        - name: libraryId
+          in: path
+          description: ID of library to update
+          required: true
+          schema:
+            type: integer
+            format: int16
+      requestBody:
+        description: Update specific elements of an existent library in the store
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Library"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Library'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-        '405':
-          description: Validation exception
+                $ref: "#/components/schemas/Library"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server Error
+  /books:
+    get:
+      tags:
+        - books
+      summary: Get all books
+      operationId: getBooks
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "500":
+          description: Internal Server error
+    post:
+      tags:
+        - books
+      summary: Add a new book
+      description: Add a new book
+      operationId: addBook
+      requestBody:
+        description: Create a new book
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+        required: true
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "500":
+          description: Internal Server error
+  /books/{bookId}:
+    get:
+      tags:
+        - books
+      summary: Get an existing book
+      operationId: getBook
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of book to get
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server error
+
+    put:
+      tags:
+        - books
+      summary: Update an existing book
+      description: Update an existing book by Id
+      operationId: updateBook
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of book to update
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Update an existent book
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server Error
+    patch:
+      tags:
+        - books
+      summary: Update specific elements of an existing book
+      operationId: patchBook
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of book to update
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Update specific elements of an existent book
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server Error
+    delete:
+      tags:
+        - books
+      summary: Delete a book
+      operationId: deleteBook
+      parameters:
+        - name: bookId
+          in: path
+          description: id of book to delete
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server Error
+  /authors:
+    get:
+      tags:
+        - authors
+      summary: Get all authors
+      operationId: getAuthors
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+        "500":
+          description: Internal Server error
+    post:
+      tags:
+        - authors
+      summary: Add a new author
+      description: Add a new author
+      operationId: addAuthor
+      requestBody:
+        description: Create a new author
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Author"
+        required: true
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+        "500":
+          description: Internal Server error
+  /authors/{authorId}:
+    get:
+      tags:
+        - authors
+      summary: Get an existing author
+      operationId: getAuthor
+      parameters:
+        - name: authorId
+          in: path
+          description: ID of author to get
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server error
+    put:
+      tags:
+        - authors
+      summary: Update an existing author
+      description: Update an existing author by Id
+      operationId: updateAuthor
+      parameters:
+        - name: authorId
+          in: path
+          description: ID of author to update
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Update an existent author
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Author"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server Error
+    patch:
+      tags:
+        - authors
+      summary: Update specific elements of an existing author
+      operationId: patchAuthor
+      parameters:
+        - name: authorId
+          in: path
+          description: ID of author to update
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Update specific elements of an existent author
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Author"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server Error
+    delete:
+      tags:
+        - authors
+      summary: Delete an author
+      operationId: deleteAuthor
+      parameters:
+        - name: authorId
+          in: path
+          description: id of author to delete
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+        "404":
+          description: Not found
+        "500":
+          description: Internal Server Error
 components:
   schemas:
     Library:
@@ -96,6 +444,7 @@ components:
         - id
         - name
         - address
+        - opening days and hours
       type: object
       properties:
         id:
@@ -114,4 +463,53 @@ components:
         opening days and hours:
           type: string
           example: Monday 14:00-20:00, Tuesday 09:00-20:00, Wednesday 09:00-20:00, Thursday 09:00-20:00, Friday 09:00-20:00, Saturday 09:00-20:00, Sunday 13:00-19:00
-          
+    Book:
+      required:
+        - id
+        - name
+        - author
+        - release date
+        - publisher
+      type: object
+      properties:
+        id:
+          type: number
+          example: 01
+        name:
+          type: string
+          example: "Harry Potter à l'école des Sorciers"
+        author:
+          $ref: "#/components/schemas/Author"
+        release date:
+          type: string
+          format: date
+          example: 2017-07-21
+        publisher:
+          type: string
+          example: Bloomsbudy Publishing
+        library:
+          $ref: "#/components/schemas/Library"
+        borrowed:
+          type: boolean
+          example: false
+    Author:
+      required:
+        - id
+        - name
+        - birthday
+      type: object
+      properties:
+        id:
+          type: number
+          example: 01
+        name:
+          type: string
+          example: "J. K. Rowling"
+        birthday:
+          type: string
+          format: date
+          example: 1967-07-21
+        books written:
+          type: array
+          items:
+            $ref: "#/components/schemas/Book"
