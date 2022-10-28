@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
 const app = express();
 const port = 3000;
 
-const router = require("./router");
+import router from "./router.js";
 
 app.use(express.json()); // for parsing application/json
 

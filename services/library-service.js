@@ -14,18 +14,16 @@ const getOne = (libraryId) => {
   return libraries[libraryId];
 };
 
-const putOne = (libraryId, body) => {
-  const libraryToModify = libraries[libraryId];
-  libraries[libraryId] = body;
+const putOne = (libraryId, library) => {
+  libraries[libraryId] = library;
   return libraries[libraryId];
 };
 
-const patchOne = (libraryId, body) => {
-  const libraryToModify = libraries[libraryId];
-  for (const [key, value] of Object.entries(body)) {
+const patchOne = (libraryId, fields) => {
+  for (const [key, value] of Object.entries(fields)) {
     libraries[libraryId][key] = value;
   }
   return libraries[libraryId];
 };
 
-module.exports = { getAll, create, getOne, putOne, patchOne };
+export default { libraries, getAll, create, getOne, putOne, patchOne };

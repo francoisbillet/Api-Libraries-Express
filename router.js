@@ -1,7 +1,12 @@
-const express = require("express");
+import express from "express";
+
+import libraryController from "./controllers/library-controller.js";
+import authorsController from "./controllers/authors-controller.js";
+import booksController from "./controllers/books-controller.js";
+
 const router = express.Router();
 
-const libraryController = require("./controllers/library-controller");
+// Libraries
 
 router
   .route("/library")
@@ -14,4 +19,29 @@ router
   .put(libraryController.putOne)
   .patch(libraryController.patchOne);
 
-module.exports = router;
+// Authors
+
+router
+  .route("/authors")
+  .get(authorsController.getAll)
+  .post(authorsController.create);
+
+router
+  .route("/authors/:authorId")
+  .get(authorsController.getOne)
+  .put(authorsController.putOne)
+  .patch(authorsController.patchOne)
+  .delete(authorsController.deleteOne);
+
+// Books
+
+router.route("/books").get(booksController.getAll).post(booksController.create);
+
+router
+  .route("/books/:bookId")
+  .get(booksController.getOne)
+  .put(booksController.putOne)
+  .patch(booksController.patchOne)
+  .delete(booksController.deleteOne);
+
+export default router;
